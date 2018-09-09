@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class BallMovement : MonoBehaviour {
 
+
+	private Rigidbody2D rb;
+	private Vector2 movement;
 	public float speed = 50;
 
 	// Use this for initialization
 	void Start () {
-		GetComponent<Rigidbody2D> ().velocity = Vector2.right * speed;
+		float moveInitialX = Random.Range (-0.9f, 0.9f);
+		float moveInitialY = Random.Range (-1.0f, 1.0f);
+		rb = GetComponent<Rigidbody2D> ();
+		movement = new Vector2(moveInitialX, moveInitialY);
+		rb.velocity = movement.normalized * speed;
 	}
 	
 	// Update is called once per frame
@@ -29,10 +36,10 @@ public class BallMovement : MonoBehaviour {
 			}
 			GetComponent<Rigidbody2D> ().velocity = dir * speed;
 		}
+	}
 
-		if (col.gameObject.name == "WallLeft" || col.gameObject.name == "WallRight") {
-			//destroyBall ();
-		}
+	void OnTriggerEnter2D(Collider2D c) {
+		Destroy (gameObject);
 	}
 
 	float hitFactor(Vector2 ballPos, Vector2 racketPos, float racketHeight) {
